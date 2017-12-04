@@ -37,3 +37,6 @@ RUN a2enmod ssl rewrite
 
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 RUN echo "export FORCE_HTTPS=\${HTTPS}" >> /etc/apache2/envvars
+
+VOLUME [ "/var/www/html","/etc/apache2/sites-enabled/" ]
+WORKDIR /var/www/html
