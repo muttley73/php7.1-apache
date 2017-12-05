@@ -1,5 +1,8 @@
 FROM php:7.1-apache
 
+RUN groupadd -g 600 webmgr
+RUN useradd -u 600 -g 600 webmgr
+
 RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
@@ -34,6 +37,9 @@ RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
 RUN php composer-setup.php --install-dir=/bin --filename=composer
 
 RUN a2enmod ssl rewrite
+
+ENV APACHE_RUN_USER webmgr
+ENV APACHE_RUN_GROUP webmgr
 
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 RUN echo "export FORCE_HTTPS=\${HTTPS}" >> /etc/apache2/envvars
